@@ -12,7 +12,6 @@ public class GamePanel extends JPanel {
 
     public GamePanel(Board board, int borderWidth, int squareWidth) {
         drawer = buildBoard(board, borderWidth, squareWidth);
-        addMouseListener(new MouseClickListener());
     }
 
     public void paint(Graphics g) {
@@ -21,7 +20,7 @@ public class GamePanel extends JPanel {
 
     private IBoardDrawer buildBoard(Board board, int borderWidth, int squareWidth) {
         BoardDrawer boardDrawer = new BoardDrawer(board, borderWidth, squareWidth);
-        //addMouseListener(new MouseClickListener(boardDrawer));
+        addMouseListener(new MouseClickListener(boardDrawer));
         BoardDecorator squareLabelDecorator = new SquareLabelDecorator(boardDrawer);
         BoardDecorator pieceDecorator = new PieceDecorator(squareLabelDecorator);
 

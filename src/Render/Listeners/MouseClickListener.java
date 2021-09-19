@@ -1,12 +1,21 @@
 package Render.Listeners;
 
+import Game.Spot;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class MouseClickListener implements MouseListener {
+    IBoardClickChecker boardClickChecker;
+
+    public MouseClickListener(IBoardClickChecker boardClickChecker) {
+        this.boardClickChecker = boardClickChecker;
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("Mouse is clicked");
+        Spot spot = boardClickChecker.getSpotClicked(e);
+        System.out.println(spot.getCoordinate().algebraic());
     }
 
     @Override

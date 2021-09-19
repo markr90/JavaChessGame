@@ -2,29 +2,34 @@ package Game;
 
 public class Coordinate {
     private static char[] columnIndices = new char[] {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
-    private int _x;
-    private int _y;
+    private int _row;
+    private int _col;
 
-    public Coordinate(int x, int y) {
-        _x = x;
-        _y = y;
+    public Coordinate(int row, int col) {
+        _row = row;
+        _col = col;
     }
 
-    public int X() {
-        return _x;
+    public int row() {
+        return _row;
     }
 
-    public int Y() {
-        return _y;
+    public int col() {
+        return _col;
     }
 
-    public char[] Algebraic() {
-        char[] algebraic = new char[] {columnIndices[_x], Character.forDigit(_y + 1, 10)};
+    public char[] algebraic() {
+        char[] algebraic = new char[] {columnIndices[_col], Character.forDigit(8 - (_row), 10)};
         return algebraic;
     }
 
+    public char[] arrayIndices() {
+        char[] arrayIndices = new char[] {Character.forDigit(_row, 10), Character.forDigit(_col, 10)};
+        return arrayIndices;
+    }
+
     public boolean IsInbounds() {
-        return _x < 8 && _x >= 0 && _y >= 0 && _y < 8;
+        return _row < 8 && _row >= 0 && _col >= 0 && _col < 8;
     }
 
     @Override
@@ -39,7 +44,7 @@ public class Coordinate {
 
         Coordinate other = (Coordinate) o;
 
-        return this.X() == other.X() && this.Y() == other.Y();
+        return this.row() == other.row() && this.col() == other.col();
 
     }
 }

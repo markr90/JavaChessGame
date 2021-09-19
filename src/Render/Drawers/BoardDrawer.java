@@ -45,25 +45,33 @@ public class BoardDrawer implements IBoardDrawer, IBoardClickChecker {
     }
 
     private void paintBoard(Graphics g) {
-        for (int i = 0; i < 8; i ++) {
-            for (int j = 0; j < 8; j++) {
-                g.setColor(isBrownSquare(i, j) ? BROWN : LIGHT);
-                boardSquares[i][j].paintComponent(g);
+        for (int row = 0; row < 8; row ++) {
+            for (int col = 0; col < 8; col++) {
+                g.setColor(squareColor(row, col));
+                boardSquares[row][col].paintComponent(g);
             }
         }
     }
 
     private void initRectangles() {
-        for (int i = 0; i < 8; i ++) {
-            for (int j = 0; j < 8; j++) {
-                Spot spot = board.getSpot(i, j);
-                boardSquares[i][j] = new BoardSquare(spot, borderWidth, squareWidth);
+        for (int row = 0; row < 8; row ++) {
+            for (int col = 0; col < 8; col++) {
+                Spot spot = board.getSpot(row, col);
+                boardSquares[row][col] = new BoardSquare(spot, borderWidth, squareWidth);
             }
         }
     }
 
-    private boolean isBrownSquare(int x, int y) {
-        return x % 2 == 0 && y % 2 == 0 || x % 2 == 1 && y % 2 == 1;
+    private Color squareColor(int row, int col) {
+        if (isLightSquare(row, col)) {
+            return LIGHT;
+        } else {
+            return BROWN;
+        }
+    }
+
+    private boolean isLightSquare(int row, int col) {
+        return row % 2 == 0 && col % 2 == 0 || row % 2 == 1 && col % 2 == 1;
     }
 
     @Override

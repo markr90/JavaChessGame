@@ -4,16 +4,16 @@ import Pieces.IPiece;
 
 public class Spot {
     private IPiece _piece;
-    private int x;
-    private int y;
+    private int row;
+    private int col;
 
-    public Spot(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Spot(int row, int col) {
+        this.row = row;
+        this.col = col;
     }
 
     public Coordinate getCoordinate() {
-        return new Coordinate(x, y);
+        return new Coordinate(row, col);
     }
 
     public String symbolRepresentation() {

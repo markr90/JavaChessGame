@@ -19,13 +19,12 @@ public class SquareLabelDecorator extends BoardDecorator {
 
         int borderWidth = graphic.getBorderWidth();
         int squareWidth = graphic.getSquareWidth();
-        for (int i = 0; i < 8; i ++) {
-            for (int j = 0; j < 8; j++) {
-                g2D.setBackground(new Color(0,0,0,0));
+        for (int row = 0; row < 8; row ++) {
+            for (int col = 0; col < 8; col++) {
                 g2D.setColor(Color.BLACK);
-                Spot spot = graphic.getBoard().getSpot(i, j);
-                String algebraic = new String(spot.getCoordinate().Algebraic());
-                g2D.drawString(algebraic, borderWidth + j * squareWidth, (i + 1) * squareWidth + borderWidth);
+                Spot spot = graphic.getBoard().getSpot(row, col);
+                String algebraic = new String(spot.getCoordinate().algebraic());
+                g2D.drawString(algebraic, borderWidth + col * squareWidth, (row + 1) * squareWidth + borderWidth);
             }
         }
     }

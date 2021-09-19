@@ -37,25 +37,25 @@ public class Pawn extends Piece {
 
     private boolean isOneStepForward(Move move) {
         return
-            (move.to().Y() - move.from().Y() == -1)
-            && (move.to().X() - move.from().X() == 0);
+            (move.to().row() - move.from().row() == -1)
+            && (move.to().col() - move.from().col() == 0);
     }
 
     private boolean isOneStepDiagonalForward(Move move) {
         return
-                (move.to().Y() - move.from().Y() == -1)
-                        && (Math.abs(move.to().X() - move.from().X()) == 1);
+                (move.to().row() - move.from().row() == -1)
+                        && (Math.abs(move.to().col() - move.from().col()) == 1);
     }
 
     private boolean isOneStepBackward(Move move) {
         return
-                (move.to().Y() - move.from().Y() == 1)
-                        && (move.to().X() - move.from().X() == 0);
+                (move.to().row() - move.from().row() == 1)
+                        && (move.to().col() - move.from().col() == 0);
     }
 
     private boolean isOneStepDiagonalBackward(Move move) {
         return
-                (move.to().Y() - move.from().Y() == 1)
-                        && (Math.abs(move.to().X() - move.from().X()) == 1);
+                (move.to().row() - move.from().row() == 1)
+                        && (Math.abs(move.to().col() - move.from().col()) == 1);
     }
 }

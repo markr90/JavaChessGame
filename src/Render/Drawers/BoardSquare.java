@@ -12,10 +12,10 @@ public class BoardSquare extends JPanel implements ISpotClickChecker {
     private Rectangle2D rect;
 
     public BoardSquare(Spot spot, int boardOffset, int squareWidth) {
-        int i = spot.getCoordinate().X();
-        int j = spot.getCoordinate().Y();
-        int x = boardOffset + i*squareWidth;
-        int y = boardOffset + j*squareWidth;
+        int row = spot.getCoordinate().row();
+        int col = spot.getCoordinate().col();
+        int x = boardOffset + col*squareWidth;
+        int y = boardOffset + row*squareWidth;
         rect = new Rectangle2D.Float(x, y, squareWidth, squareWidth);
     }
 

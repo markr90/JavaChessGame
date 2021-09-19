@@ -10,10 +10,10 @@ public class Board {
     public Board() throws Exception {
         currentState = new Spot[8][8];
 
-        for (int i = 0; i < 8; i++) {
+        for (int row = 0; row < 8; row++) {
 
-            for (int j= 0; j < 8; j++) {
-                currentState[i][j] = new Spot(j,7-i);
+            for (int col = 0; col < 8; col++) {
+                currentState[row][col] = new Spot(row,col);
             }
         }
 
@@ -69,7 +69,7 @@ public class Board {
     }
 
     public Spot getSpot(Coordinate coordinate) {
-        return currentState[coordinate.Y()][coordinate.X()];
+        return currentState[coordinate.row()][coordinate.col()];
     }
 
     public Spot getSpot(int row, int col)  {

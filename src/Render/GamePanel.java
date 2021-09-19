@@ -2,13 +2,14 @@ package Render;
 
 import Game.Board;
 import Render.Drawers.*;
-import Render.Listeners.MouseClickListener;
+import Render.Listeners.MoveClickListener;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel {
     private IBoardDrawer drawer;
+    private BoardDrawer boardDrawer;
 
     public GamePanel(Board board, int borderWidth, int squareWidth) {
         drawer = buildBoard(board, borderWidth, squareWidth);
@@ -18,9 +19,13 @@ public class GamePanel extends JPanel {
         drawer.draw(g);
     }
 
+    public void subscribeBoardClickListener(MoveClickListener moveClickListener) {
+        moveClickListener.registerBoard(boardDrawer);
+        addMouseListener(moveClickListener);
+    }
+
     private IBoardDrawer buildBoard(Board board, int borderWidth, int squareWidth) {
-        BoardDrawer boardDrawer = new BoardDrawer(board, borderWidth, squareWidth);
-        addMouseListener(new MouseClickListener(boardDrawer));
+        boardDrawer = new BoardDrawer(board, borderWidth, squareWidth);
         BoardDecorator squareLabelDecorator = new SquareLabelDecorator(boardDrawer);
         BoardDecorator pieceDecorator = new PieceDecorator(squareLabelDecorator);
 

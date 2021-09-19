@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Game {
+public class Game implements MoveHandler {
     private Player whitePlayer;
     private Player blackPlayer;
     private Board board;
@@ -30,7 +30,6 @@ public class Game {
         whitesMove = true;
         gameState = GameState.ACTIVE;
         display.Show();
-        PlayGame();
     }
 
     public Player CurPlayer() {
@@ -45,11 +44,10 @@ public class Game {
         return board;
     }
 
-    private void PlayGame() throws IOException {
-        while (gameState == GameState.ACTIVE) {
-            ProcessPlayerMove();
+    public void handleMove(Move move) {
+        boolean validMove = board.AcceptMove(CurPlayer(), move);
+        if (validMove) {
             whitesMove = !whitesMove;
-            display.Update();
         }
     }
 

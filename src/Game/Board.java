@@ -42,7 +42,7 @@ public class Board {
             return false;
         }
 
-        if (currentSpot.getPiece().IsWhite() && !player.IsWhite()) {
+        if (currentSpot.getPiece().IsWhite() != player.IsWhite()) {
             System.out.println("Invalid move not same color");
             return false;
         }

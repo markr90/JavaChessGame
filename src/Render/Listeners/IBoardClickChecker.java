@@ -1,6 +1,6 @@
 package Render.Listeners;
 
-import Render.Drawers.BoardSquare;
+import Render.Board.BoardSquare;
 
 import java.awt.event.MouseEvent;
 

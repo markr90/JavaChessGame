@@ -1,4 +1,4 @@
-package Render.Drawers;
+package Render.Board;
 
 import Game.Board;
 import Game.Spot;

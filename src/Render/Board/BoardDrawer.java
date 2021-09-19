@@ -1,6 +1,7 @@
-package Render.Drawers;
+package Render.Board;
 
 import Game.Board;
+import Game.Game;
 import Game.Spot;
 import Render.Listeners.IBoardClickChecker;
 
@@ -8,15 +9,15 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class BoardDrawer implements IBoardDrawer, IBoardClickChecker {
-    private Board board;
+    private Game game;
     private int squareWidth;
     private int borderWidth;
 
     private BoardSquare[][] boardSquares = new BoardSquare[8][8];
 
 
-    public BoardDrawer(Board board, int borderWidth, int squareWidth) {
-        this.board = board;
+    public BoardDrawer(Game game, int borderWidth, int squareWidth) {
+        this.game = game;
         this.squareWidth = squareWidth;
         this.borderWidth = borderWidth;
         initRectangles();
@@ -38,7 +39,7 @@ public class BoardDrawer implements IBoardDrawer, IBoardClickChecker {
 
     @Override
     public Board getBoard() {
-        return board;
+        return game.Board();
     }
 
     private void paintBoard(Graphics g) {
@@ -52,7 +53,7 @@ public class BoardDrawer implements IBoardDrawer, IBoardClickChecker {
     private void initRectangles() {
         for (int row = 0; row < 8; row ++) {
             for (int col = 0; col < 8; col++) {
-                Spot spot = board.getSpot(row, col);
+                Spot spot = game.Board().getSpot(row, col);
                 boardSquares[row][col] = new BoardSquare(spot, borderWidth, squareWidth);
             }
         }

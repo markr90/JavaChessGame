@@ -1,34 +1,44 @@
 package Render;
 
-import Game.Board;
-import Render.Drawers.*;
+import Game.Game;
+import Render.Announcer.PlayerTurnAnnouncer;
+import Render.Board.*;
+import Render.Listeners.IDisplayUpdater;
 import Render.Listeners.MoveClickListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
     private IBoardDrawer drawer;
-    private BoardDrawer boardDrawer;
 
-    public GamePanel(Board board, int borderWidth, int squareWidth) {
-        drawer = buildBoard(board, borderWidth, squareWidth);
+    private ArrayList<IDisplayUpdater> displayUpdaters = new ArrayList<>();
+
+    public GamePanel(Game game, int borderWidth, int squareWidth) {
+        drawer = buildBoard(game, borderWidth, squareWidth);
     }
 
     public void paint(Graphics g) {
         drawer.draw(g);
     }
 
-    public void subscribeBoardClickListener(MoveClickListener moveClickListener) {
-        moveClickListener.registerBoard(boardDrawer);
-        addMouseListener(moveClickListener);
-    }
+    private IBoardDrawer buildBoard(Game game, int borderWidth, int squareWidth) {
+        BoardDrawer boardDrawer = new BoardDrawer(game, borderWidth, squareWidth);
 
-    private IBoardDrawer buildBoard(Board board, int borderWidth, int squareWidth) {
-        boardDrawer = new BoardDrawer(board, borderWidth, squareWidth);
+        MoveClickListener moveClickListener = new MoveClickListener(game, boardDrawer);
+        displayUpdaters.add(moveClickListener.getDisplayUpdater());
+
+        addMouseListener(moveClickListener);
         BoardDecorator squareLabelDecorator = new SquareLabelDecorator(boardDrawer);
         BoardDecorator pieceDecorator = new PieceDecorator(squareLabelDecorator);
 
         return pieceDecorator;
+    }
+
+    public void attachDisplay(IDisplay display) {
+        for (IDisplayUpdater displayUpdater: displayUpdaters) {
+            displayUpdater.attachDisplay(display);
+        }
     }
 }

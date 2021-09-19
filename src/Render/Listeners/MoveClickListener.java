@@ -1,9 +1,9 @@
 package Render.Listeners;
 
+import Game.Game;
 import Game.Move;
 import Game.MovePublisher;
-import Render.Drawers.BoardSquare;
-import Render.GameFrame;
+import Render.Board.BoardSquare;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -12,15 +12,16 @@ public class MoveClickListener implements MouseListener {
     private IBoardClickChecker boardClickChecker;
     private BoardSquare lastSquareClicked;
     private final MovePublisher movePublisher;
-    private GameFrame gameFrame;
+    private IDisplayUpdater displayUpdater;
 
-    public MoveClickListener(MovePublisher movePublisher, GameFrame gameFrame) {
-        this.movePublisher = movePublisher;
-        this.gameFrame = gameFrame;
+    public MoveClickListener(Game game, IBoardClickChecker boardClickChecker) {
+        this.movePublisher = new MovePublisher(game);
+        displayUpdater = new DisplayUpdater();
+        this.boardClickChecker = boardClickChecker;
     }
 
-    public void registerBoard(IBoardClickChecker boardClickChecker) {
-        this.boardClickChecker = boardClickChecker;
+    public IDisplayUpdater getDisplayUpdater() {
+        return displayUpdater;
     }
 
     @Override
@@ -47,8 +48,7 @@ public class MoveClickListener implements MouseListener {
             lastSquareClicked = null;
         }
 
-        gameFrame.Update();
-
+        displayUpdater.updateDisplays();
     }
 
     @Override

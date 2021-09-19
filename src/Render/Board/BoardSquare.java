@@ -1,4 +1,4 @@
-package Render.Drawers;
+package Render.Board;
 
 import Game.Coordinate;
 import Game.Spot;
@@ -28,6 +28,7 @@ public class BoardSquare extends JComponent implements ISpotClickChecker {
         this.spot = spot;
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D)(g);

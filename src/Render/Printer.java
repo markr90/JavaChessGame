@@ -3,7 +3,7 @@ package Render;
 import Game.Game;
 import Game.Spot;
 
-public final class Printer implements IDisplay {
+public final class Printer  {
     private static String[] columnIndices = new String[] {"A", "B", "C", "D", "E", "F", "G", "H"};
     private static String[] rowIndices = new String[] {"1", "2", "3", "4", "5", "6", "7", "8"};
     public static final String ANSI_RESET = "\u001B[0m";
@@ -16,12 +16,10 @@ public final class Printer implements IDisplay {
         this.game = game;
     }
 
-    @Override
     public void Show() {
         Update();
     }
 
-    @Override
     public void Update() {
         Spot[][] state = game.Board().getCurrentState();
         for (int i = 7; i >= 0; i--) {

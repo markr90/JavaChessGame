@@ -1,8 +1,5 @@
 package Render;
 import Game.Game;
-import Render.Drawers.BoardDecorator;
-import Render.Drawers.BoardDrawer;
-import Render.Drawers.PieceDecorator;
 
 import javax.swing.*;
 import java.awt.*;

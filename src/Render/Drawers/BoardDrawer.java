@@ -2,10 +2,12 @@ package Render.Drawers;
 
 import Game.Board;
 import Game.Spot;
+import Render.Listeners.IBoardClickChecker;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
-public class BoardDrawer implements IBoardDrawer {
+public class BoardDrawer implements IBoardDrawer, IBoardClickChecker {
     private Board board;
     private int squareWidth;
     private int borderWidth;
@@ -62,5 +64,18 @@ public class BoardDrawer implements IBoardDrawer {
 
     private boolean isBrownSquare(int x, int y) {
         return x % 2 == 0 && y % 2 == 0 || x % 2 == 1 && y % 2 == 1;
+    }
+
+    @Override
+    public Spot getSpotClicked(MouseEvent mouseEvent) {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (boardSquares[row][col].wasSpotClicked(mouseEvent)) {
+                    return board.getSpot(row, col);
+                }
+            }
+        }
+
+        return null;
     }
 }

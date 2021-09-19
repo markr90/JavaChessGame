@@ -48,6 +48,9 @@ public abstract class Piece implements IPiece {
         if (symbol.equals("P")) {
             return "pawn_" + color + ".png";
         }
+        if (symbol.equals("R")) {
+            return "rook_" + color + ".png";
+        }
         return "";
     }
 }

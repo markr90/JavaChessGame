@@ -1,6 +1,7 @@
 package Render;
 
 import Game.Game;
+import Render.Announcer.PlayerTurnAnnouncer;
 
 public class PanelFactory {
     private int borderWidth;
@@ -19,7 +20,10 @@ public class PanelFactory {
 
     public GamePanel createGamePanel() {
         GamePanel gamePanel = new GamePanel(game, borderWidth, squareWidth);
-        gamePanel.attachDisplay(display);
         return gamePanel;
+    }
+
+    public PlayerTurnAnnouncer createPlayerTurnAnnouncer() {
+        return new PlayerTurnAnnouncer(game, display.GetWidth(), borderWidth);
     }
 }

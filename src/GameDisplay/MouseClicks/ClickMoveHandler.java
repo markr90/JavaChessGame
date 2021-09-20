@@ -4,28 +4,26 @@ import GameDisplay.Board.BoardSquare;
 import Game.Game;
 import Game.Move;
 
-import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class MoveHandler {
+public class ClickMoveHandler implements MouseListener {
     private Game game;
     private BoardSquare lastSquareClicked;
     private int clickCount;
 
-    public MoveHandler(Game game) {
+    public ClickMoveHandler(Game game) {
         this.game = game;
     }
 
-    public void subscribeSquare(BoardSquare square) {
-        square.addActionListener((ae) -> handleSquareAction(ae));
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
     }
 
-    public void unsubscribeSquare(BoardSquare square) {
-        square.removeActionListener((ae) -> handleSquareAction(ae));
-    }
-
-    private void handleSquareAction(ActionEvent actionEvent) {
-        System.out.println("action");
-        BoardSquare boardSquare = (BoardSquare) actionEvent.getSource();
+    @Override
+    public void mousePressed(MouseEvent e) {
+        BoardSquare boardSquare = (BoardSquare) e.getSource();
 
         if (clickCount == 0) {
             clickCount++;
@@ -39,5 +37,20 @@ public class MoveHandler {
             boardSquare.drawPiece();
             clickCount = 0;
         }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

@@ -3,7 +3,7 @@ package Game;
 import GameDisplay.IDisplay;
 import Pieces.IPiece;
 
-public class Game implements MoveHandler {
+public class Game {
     private Player whitePlayer;
     private Player blackPlayer;
     private Board board;

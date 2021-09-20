@@ -3,7 +3,6 @@ package GameDisplay;
 import Game.Game;
 import GameDisplay.Board.AnnouncerPanel;
 import GameDisplay.Board.ChessBoard;
-import GameDisplay.MouseClicks.MouseClickDistributor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,14 +12,12 @@ public class PanelFactory {
     private int width;
     private int height;
     private int boardPanelWidth;
-    private MouseClickDistributor mouseClickDistributor;
 
     public PanelFactory(Game game, int frameWidth, int frameHeight) {
         boardPanelWidth = frameHeight;
         this.game = game;
         this.width = frameWidth;
         this.height = frameHeight;
-        mouseClickDistributor = new MouseClickDistributor();
     }
 
     public JPanel createMainPanel() {
@@ -28,7 +25,6 @@ public class PanelFactory {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
         mainPanel.add(createBoardPanel());
         mainPanel.add(createMoveHistoryPanel());
-        mainPanel.addMouseListener(mouseClickDistributor);
         return mainPanel;
     }
 
@@ -55,7 +51,6 @@ public class PanelFactory {
     public JPanel createChessBoardPanel() {
         JPanel boardConstrain = new JPanel(new GridBagLayout());
         ChessBoard chessBoard = new ChessBoard(game);
-        mouseClickDistributor.subscribe(chessBoard);
         boardConstrain.add(chessBoard);
 
         boardConstrain.setBackground(Color.LIGHT_GRAY);

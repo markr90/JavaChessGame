@@ -5,12 +5,22 @@ import Game.Move;
 import java.io.IOException;
 
 public class Pawn extends Piece {
+    private boolean isFirstMove = true;
+
     public Pawn(boolean isWhite) throws IOException {
         super("P", isWhite);
     }
 
     @Override
     public boolean IsMoveLegal(Board board, Move move) {
+        boolean moveIsValid = isMoveValid(board, move);
+        if (isFirstMove && moveIsValid) {
+            isFirstMove = false;
+        }
+        return moveIsValid;
+    }
+
+    private boolean isMoveValid(Board board, Move move) {
         if (IsWhite()) {
             // 1 step forward
             if (isOneStepForward(move)) {
@@ -36,9 +46,17 @@ public class Pawn extends Piece {
     }
 
     private boolean isOneStepForward(Move move) {
-        return
-            (move.to().row() - move.from().row() == -1)
-            && (move.to().col() - move.from().col() == 0);
+        boolean isOneStep =
+                (move.to().row() - move.from().row() == -1)
+                        && (move.to().col() - move.from().col() == 0);
+        if (isFirstMove) {
+            boolean isTwoStep =
+                    (move.to().row() - move.from().row() == -2)
+                            && (move.to().col() - move.from().col() == 0);
+            return isTwoStep || isOneStep;
+        } else {
+            return isOneStep;
+        }
     }
 
     private boolean isOneStepDiagonalForward(Move move) {
@@ -48,9 +66,17 @@ public class Pawn extends Piece {
     }
 
     private boolean isOneStepBackward(Move move) {
-        return
+        boolean isOneStep =
                 (move.to().row() - move.from().row() == 1)
                         && (move.to().col() - move.from().col() == 0);
+        if (isFirstMove) {
+            boolean isTwoStep =
+                    (move.to().row() - move.from().row() == 2)
+                            && (move.to().col() - move.from().col() == 0);
+            return isTwoStep || isOneStep;
+        } else {
+            return isOneStep;
+        }
     }
 
     private boolean isOneStepDiagonalBackward(Move move) {

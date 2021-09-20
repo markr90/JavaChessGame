@@ -13,11 +13,13 @@ public class Game implements MoveHandler {
     private boolean whitesMove;
     private GameState gameState;
     private IDisplay display;
+    private MoveHistory moveHistory;
 
     public Game(Player white, Player black) throws Exception {
         whitePlayer = white;
         whitePlayer.SetWhite();
         blackPlayer = black;
+        moveHistory = new MoveHistory();
         board = new Board();
     }
 
@@ -30,6 +32,10 @@ public class Game implements MoveHandler {
         whitesMove = true;
         gameState = GameState.ACTIVE;
         display.Show();
+    }
+
+    public MoveHistory getMoveHistory() {
+        return moveHistory;
     }
 
     public Player CurPlayer() {
@@ -47,6 +53,7 @@ public class Game implements MoveHandler {
     public void handleMove(Move move) {
         boolean validMove = board.AcceptMove(CurPlayer(), move);
         if (validMove) {
+            moveHistory.addMove(move);
             whitesMove = !whitesMove;
         }
     }

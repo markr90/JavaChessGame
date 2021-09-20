@@ -1,7 +1,7 @@
 package Game;
 
 public class Coordinate {
-    private static char[] columnIndices = new char[] {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+    public final static char[] columnIndices = new char[] {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
     private int _row;
     private int _col;
 

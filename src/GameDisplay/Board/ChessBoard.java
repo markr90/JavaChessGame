@@ -2,6 +2,7 @@ package GameDisplay.Board;
 
 import Game.Game;
 import Game.Coordinate;
+import GameDisplay.MouseClicks.DragAndDropMoveHandler;
 import GameDisplay.MouseClicks.IMouseClickHandler;
 import GameDisplay.MouseClicks.MoveHandler;
 
@@ -23,12 +24,14 @@ public class ChessBoard extends JPanel implements IMouseClickHandler {
     }
 
     private void initBoardSquares() {
+        DragAndDropMoveHandler dragAndDropMoveHandler = new DragAndDropMoveHandler(game);
         for (int r = 0; r < 8; r++) {
             for (int c = 0; c < 8; c++) {
                 boardSquares[r][c] = new BoardSquare(game.Board().getSpot(r, c));
                 boardSquares[r][c].setBackground(boardSquares[r][c].squareColor());
                 add(boardSquares[r][c]);
                 moveHandler.subscribeSquare(boardSquares[r][c]);
+                boardSquares[r][c].setDragAndDropHandler(dragAndDropMoveHandler);
             }
         }
     }

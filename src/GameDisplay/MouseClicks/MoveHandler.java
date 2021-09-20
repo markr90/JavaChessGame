@@ -5,25 +5,26 @@ import Game.Game;
 import Game.Move;
 
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 
 public class MoveHandler {
-    private ArrayList<BoardSquare> squares;
     private Game game;
     private BoardSquare lastSquareClicked;
     private int clickCount;
 
     public MoveHandler(Game game) {
-        squares = new ArrayList<>();
         this.game = game;
     }
 
     public void subscribeSquare(BoardSquare square) {
         square.addActionListener((ae) -> handleSquareAction(ae));
-        squares.add(square);
+    }
+
+    public void unsubscribeSquare(BoardSquare square) {
+        square.removeActionListener((ae) -> handleSquareAction(ae));
     }
 
     private void handleSquareAction(ActionEvent actionEvent) {
+        System.out.println("action");
         BoardSquare boardSquare = (BoardSquare) actionEvent.getSource();
 
         if (clickCount == 0) {

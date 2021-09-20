@@ -1,15 +1,20 @@
 package GameDisplay.Board;
 
 import Game.Spot;
+import GameDisplay.MouseClicks.DragAndDropMoveHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
-public class BoardSquare extends JButton {
+public class BoardSquare extends JButton implements MouseListener {
     private static Color BROWN = new Color(143, 103, 66);
     private static Color LIGHT = new Color(255,248,220);
     private static Color HIGHLIGHTED = new Color(212, 227, 250);
+
+    private DragAndDropMoveHandler dragAndDropMoveHandler;
 
     private Spot spot;
 
@@ -21,6 +26,11 @@ public class BoardSquare extends JButton {
         setMargin(new Insets(0, 0, 0, 0));
         setBackground(squareColor());
         drawPiece();
+        addMouseListener(this);
+    }
+
+    public void setDragAndDropHandler(DragAndDropMoveHandler dragAndDropHandler) {
+        this.dragAndDropMoveHandler = dragAndDropHandler;
     }
 
     public Spot getSpot() {
@@ -68,5 +78,30 @@ public class BoardSquare extends JButton {
         g2d.dispose();
 
         return dimg;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        dragAndDropMoveHandler.handlePress(this);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        dragAndDropMoveHandler.handleDrop();
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        dragAndDropMoveHandler.handleEnter(this);
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        dragAndDropMoveHandler.handleExit(this);
     }
 }

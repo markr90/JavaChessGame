@@ -28,7 +28,6 @@ public class AnnouncerPanel extends JPanel implements IGameObserver {
     }
 
     public void update(Game game) {
-        System.out.println("Updating announcer");
         label.setText(getMessage());
         this.repaint();
     }

@@ -3,17 +3,25 @@ package Game;
 import java.util.ArrayList;
 
 public class MoveHistory {
-    public ArrayList<Move> moveHistory;
+    public ArrayList<HistoricMove> moveHistory;
 
     public MoveHistory() {
         moveHistory = new ArrayList<>();
     }
 
-    public ArrayList<Move> getMoveHistory() {
+    public ArrayList<HistoricMove> moves() {
         return moveHistory;
     }
 
-    public void addMove(Move move) {
+    public HistoricMove lastMove() {
+        if (!moveHistory.isEmpty()) {
+            return moveHistory.get(moveHistory.size() - 1);
+        } else {
+            return null;
+        }
+    }
+
+    public void addMove(HistoricMove move) {
         moveHistory.add(move);
     }
 

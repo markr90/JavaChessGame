@@ -1,7 +1,6 @@
 package GameDisplay;
 
 import Game.Game;
-import Render.IDisplay;
 
 import javax.swing.*;
 import java.awt.*;

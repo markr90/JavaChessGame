@@ -1,6 +1,5 @@
 package GameDisplay.Board;
 
-import Game.Coordinate;
 import Game.Spot;
 
 import javax.swing.*;
@@ -24,6 +23,10 @@ public class BoardSquare extends JButton {
         drawPiece();
     }
 
+    public Spot getSpot() {
+        return spot;
+    }
+
     public void setHighlighted(boolean value) {
         if (value) {
             setBackground(HIGHLIGHTED);
@@ -40,7 +43,7 @@ public class BoardSquare extends JButton {
         }
     }
 
-    private void drawPiece() {
+    public void drawPiece() {
         if (spot.hasPiece()) {
             BufferedImage bi = resizeIcon(spot.getPiece().Image(), 64, 64);
             ImageIcon icon = new ImageIcon(bi);

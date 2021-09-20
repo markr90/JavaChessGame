@@ -1,12 +1,13 @@
 package GameDisplay.Board;
 
 import Game.Game;
+import Game.IGameObserver;
 import Game.GameState;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class AnnouncerPanel extends JPanel {
+public class AnnouncerPanel extends JPanel implements IGameObserver {
     private JLabel label;
     private Game game;
 
@@ -15,11 +16,7 @@ public class AnnouncerPanel extends JPanel {
         label = new JLabel(getMessage());
         label.setFont(new Font("Sans-serif", Font.PLAIN, 50));
         add(label);
-    }
-
-    public void paint(Graphics g) {
-        label.setText(getMessage());
-        super.paint(g);
+        game.getGamePublisher().subscribe(this);
     }
 
     private String getMessage() {
@@ -28,5 +25,11 @@ public class AnnouncerPanel extends JPanel {
         } else {
             return "INACTIVE";
         }
+    }
+
+    public void update(Game game) {
+        System.out.println("Updating announcer");
+        label.setText(getMessage());
+        this.repaint();
     }
 }

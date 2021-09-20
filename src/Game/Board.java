@@ -2,7 +2,6 @@ package Game;
 
 import Pieces.PieceFactory;
 import Pieces.Pieces;
-import Pieces.IPiece;
 
 public class Board {
     private Spot[][] currentState;
@@ -20,42 +19,12 @@ public class Board {
         this.Reset();
     }
 
-    public Spot[][] getCurrentState() {
-        return currentState;
-    }
-
-    public boolean AcceptMove(Player player, Move move) {
-        if (move.from() == move.to()) {
-            return false;
-        }
-
-        if (!IsMoveInbounds(move)) {
-            System.out.println("Invalid move out oof bounds");
-            return false;
-        }
-
+    public void AcceptMove(Move move) {
         Spot currentSpot = this.getSpot(move.from());
         Spot newSpot = this.getSpot(move.to());
 
-        if (!currentSpot.hasPiece()) {
-            System.out.println("Invalid move has no piece");
-            return false;
-        }
-
-        if (currentSpot.getPiece().IsWhite() != player.IsWhite()) {
-            System.out.println("Invalid move not same color");
-            return false;
-        }
-
-        IPiece piece = currentSpot.getPiece();
-        if (!piece.IsMoveLegal(this, move)) {
-            return false;
-        }
-
         newSpot.setPiece(currentSpot.getPiece());
         currentSpot.clearPiece();
-
-        return true;
     }
 
     public void Reset() throws Exception {
@@ -78,9 +47,5 @@ public class Board {
 
     public Spot getSpot(int row, int col)  {
         return currentState[row][col];
-    }
-
-    private boolean IsMoveInbounds(Move move) {
-        return move.from().IsInbounds() && move.to().IsInbounds();
     }
 }

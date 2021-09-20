@@ -1,33 +1,34 @@
 package GameDisplay;
 
-import Game.MoveHistory;
+import Game.Game;
+import Game.HistoricMove;
+import Game.IGameObserver;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class MoveHistoryPanel extends JPanel {
-    private MoveHistory moveHistory;
+public class MoveHistoryPanel extends JPanel implements IGameObserver {
     private JTextArea textArea;
 
-    public MoveHistoryPanel(MoveHistory moveHistory) {
+    public MoveHistoryPanel(Game game) {
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 10, 10, 10));
-        this.moveHistory = moveHistory;
         setPreferredSize(new Dimension(150, 0));
         textArea = new JTextArea();
         JScrollPane scroll = new JScrollPane (textArea);
         textArea.setFont(new Font("sans-serif", Font.PLAIN, 16));
         textArea.setEditable(false);
         add(scroll);
+        game.getGamePublisher().subscribe(this);
     }
 
-    public void paint(Graphics g) {
-        String moves = "";
-        for (int i = 0; i < 100; i++) {
-            moves += "aaaa\n";
+    public void update(Game game) {
+        String text = "";
+        for (HistoricMove move : game.getMoveHistory().moves()) {
+            text += move.algebraic() + "\n";
         }
-        textArea.setText(moves);
-        super.paint(g);
+        textArea.setText(text);
+        this.repaint();
     }
 }

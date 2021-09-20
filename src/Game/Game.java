@@ -1,10 +1,7 @@
 package Game;
 
-import Render.IDisplay;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import GameDisplay.IDisplay;
+import Pieces.IPiece;
 
 public class Game implements MoveHandler {
     private Player whitePlayer;
@@ -14,6 +11,7 @@ public class Game implements MoveHandler {
     private GameState gameState;
     private IDisplay display;
     private MoveHistory moveHistory;
+    private GamePublisher gamePublisher;
 
     public Game(Player white, Player black) throws Exception {
         whitePlayer = white;
@@ -21,6 +19,11 @@ public class Game implements MoveHandler {
         blackPlayer = black;
         moveHistory = new MoveHistory();
         board = new Board();
+        gamePublisher = new GamePublisher();
+    }
+
+    public GamePublisher getGamePublisher() {
+        return gamePublisher;
     }
 
     public void RegisterDisplay(IDisplay display) {
@@ -51,31 +54,14 @@ public class Game implements MoveHandler {
     }
 
     public void handleMove(Move move) {
-        boolean validMove = board.AcceptMove(CurPlayer(), move);
+        boolean validMove = MoveValidator.isMoveValid(this, move);
         if (validMove) {
-            moveHistory.addMove(move);
+            IPiece pieceMoved = this.board.getSpot(move.from()).getPiece();
+            IPiece pieceCaptured = this.board.getSpot(move.to()).getPiece();
+            moveHistory.addMove(new HistoricMove(move, pieceMoved, pieceCaptured));
+            this.board.AcceptMove(move);
             whitesMove = !whitesMove;
         }
-    }
-
-    private void ProcessPlayerMove() throws IOException {
-        // Enter data using BufferReader
-        Player curPlayer = whitesMove ? whitePlayer : blackPlayer;
-        boolean validMove = false;
-
-        while (!validMove) {
-            System.out.print(curPlayer.Name() + " enter move: ");
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(System.in));
-
-            // Reading data using readLine
-            String playerInput = reader.readLine();
-            if (playerInput.equals("quit")) {
-                gameState = GameState.INACTIVE;
-                return;
-            }
-            Move move = new Move(playerInput);
-            validMove = board.AcceptMove(curPlayer, move);
-        }
+        gamePublisher.update(this);
     }
 }

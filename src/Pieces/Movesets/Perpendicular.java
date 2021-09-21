@@ -17,6 +17,10 @@ public class Perpendicular implements MoveSet {
 
     @Override
     public boolean isValidMove(Board board, Move move) {
+        if (exceededDistance(move, maxDistance)) {
+            return false;
+        }
+
         if (!isMovePerpendicular(move)) {
             return false;
         }

@@ -22,4 +22,9 @@ public class Rook extends Piece {
 
         return false;
     }
+
+    @Override
+    public String fileName() {
+        return "rook_" + colorSubstring() + ".png";
+    }
 }

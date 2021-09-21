@@ -2,15 +2,15 @@ package Pieces;
 
 import Game.Board;
 import Game.Move;
+import Pieces.Movesets.Diagonal;
 import Pieces.Movesets.MoveSet;
-import Pieces.Movesets.PawnForward;
-import Pieces.Movesets.PawnCapture;
+import Pieces.Movesets.Perpendicular;
 
-public class Pawn extends Piece {
-    private static MoveSet[] moveSets = {new PawnForward(), new PawnCapture()};
+public class Queen extends Piece {
+    private static MoveSet[] moveSets = {new Perpendicular(), new Diagonal()};
 
-    public Pawn(boolean isWhite) {
-        super("P", isWhite);
+    public Queen(boolean isWhite) {
+        super("K", isWhite);
     }
 
     @Override
@@ -26,6 +26,6 @@ public class Pawn extends Piece {
 
     @Override
     public String fileName() {
-        return "pawn_" + colorSubstring() + ".png";
+        return "queen_" + colorSubstring() + ".png";
     }
 }

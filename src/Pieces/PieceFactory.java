@@ -11,6 +11,12 @@ public final class PieceFactory {
                 return new Pawn(isWhite);
             case Rook:
                 return new Rook(isWhite);
+            case Bishop:
+                return new Bishop(isWhite);
+            case King:
+                return new King(isWhite);
+            case Queen:
+                return new Queen(isWhite);
             default:
                 throw new Exception("Fatal error: Unknown piece");
         }

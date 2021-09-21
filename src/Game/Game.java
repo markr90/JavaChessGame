@@ -57,6 +57,7 @@ public class Game {
         boolean validMove = MoveValidator.isMoveValid(this, move);
         if (validMove) {
             IPiece pieceMoved = this.board.getSpot(move.from()).getPiece();
+            pieceMoved.incrementMoveCounter();
             IPiece pieceCaptured = this.board.getSpot(move.to()).getPiece();
             moveHistory.addMove(new HistoricMove(move, pieceMoved, pieceCaptured));
             this.board.AcceptMove(move);

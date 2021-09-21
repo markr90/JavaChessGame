@@ -1,9 +1,7 @@
 package Pieces;
 
 import Game.Board;
-import Game.Coordinate;
 import Game.Move;
-import Pieces.Movesets.MoveSet;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -15,11 +13,12 @@ public abstract class Piece implements IPiece {
     private String symbol;
     private boolean isWhite;
     private BufferedImage image;
+    private int numberOfTimesMoved = 0;
 
     public Piece(String symbol, boolean isWhite){
         this.symbol = symbol;
         this.isWhite = isWhite;
-        String fn = fileName(symbol, isWhite);
+        String fn = fileName();
 
 
         URL imageFile = getClass().getResource("/Resources/Images/" + fn);
@@ -28,6 +27,10 @@ public abstract class Piece implements IPiece {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void incremementMoveCounter() {
+        numberOfTimesMoved++;
     }
 
     @Override
@@ -48,14 +51,9 @@ public abstract class Piece implements IPiece {
         return symbol;
     }
 
-    private String fileName(String symbol, boolean isWhite) {
-        String color = isWhite ? "wh" : "bl";
-        if (symbol.equals("P")) {
-            return "pawn_" + color + ".png";
-        }
-        if (symbol.equals("R")) {
-            return "rook_" + color + ".png";
-        }
-        return "";
+    public abstract String fileName();
+
+    protected String colorSubstring() {
+        return isWhite ? "wh" : "bl";
     }
 }

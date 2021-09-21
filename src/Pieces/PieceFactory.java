@@ -17,6 +17,8 @@ public final class PieceFactory {
                 return new King(isWhite);
             case Queen:
                 return new Queen(isWhite);
+            case Knight:
+                return new Knight(isWhite);
             default:
                 throw new Exception("Fatal error: Unknown piece");
         }

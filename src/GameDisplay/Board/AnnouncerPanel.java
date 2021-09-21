@@ -16,7 +16,6 @@ public class AnnouncerPanel extends JPanel implements IGameObserver {
         label = new JLabel(getMessage());
         label.setFont(new Font("Sans-serif", Font.PLAIN, 50));
         add(label);
-        game.getGamePublisher().subscribe(this);
     }
 
     private String getMessage() {

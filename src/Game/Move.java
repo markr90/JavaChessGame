@@ -3,6 +3,7 @@ package Game;
 public class Move {
     private Coordinate from;
     private Coordinate to;
+    private boolean castlingMove = false;
 
     public Move(String move) {
         char[] _move = move.toLowerCase().toCharArray();
@@ -21,6 +22,14 @@ public class Move {
 
     public Coordinate to() {
         return to;
+    }
+
+    public void flagAsCastlingMove() {
+        castlingMove = true;
+    }
+
+    public boolean isCastlingMove() {
+        return castlingMove;
     }
 
     private int ColToIndex(char col) {

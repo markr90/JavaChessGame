@@ -4,6 +4,7 @@ import Game.Board;
 import Game.Move;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +13,8 @@ import java.net.URL;
 public abstract class Piece implements IPiece {
     private String symbol;
     private boolean isWhite;
-    private BufferedImage image;
-    private int numberOfTimesMoved = 0;
+    private ImageIcon icon;
+    protected int steps = 0;
 
     public Piece(String symbol, boolean isWhite){
         this.symbol = symbol;
@@ -23,19 +24,26 @@ public abstract class Piece implements IPiece {
 
         URL imageFile = getClass().getResource("/Resources/Images/" + fn);
         try {
-            image = ImageIO.read(new File(imageFile.getPath()));
+            BufferedImage image = ImageIO.read(new File(imageFile.getPath()));
+            icon = new ImageIcon(image);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void incremementMoveCounter() {
-        numberOfTimesMoved++;
+    @Override
+    public void incrementMoveCounter() {
+        this.steps++;
     }
 
     @Override
-    public BufferedImage image() {
-        return image;
+    public int numberOfTimesMoved() {
+        return this.steps;
+    }
+
+    @Override
+    public ImageIcon icon() {
+        return icon;
     }
 
     @Override

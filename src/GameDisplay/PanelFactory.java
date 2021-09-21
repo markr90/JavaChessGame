@@ -51,8 +51,8 @@ public class PanelFactory {
     public JPanel createChessBoardPanel() {
         JPanel boardConstrain = new JPanel(new GridBagLayout());
         ChessBoard chessBoard = new ChessBoard(game);
+        game.getGamePublisher().subscribe(chessBoard);
         boardConstrain.add(chessBoard);
-
         boardConstrain.setBackground(Color.LIGHT_GRAY);
 
         return boardConstrain;
@@ -67,7 +67,10 @@ public class PanelFactory {
     }
 
     private JPanel createAnnouncerPanel() {
-        return new AnnouncerPanel(game);
+        AnnouncerPanel announcerPanel = new AnnouncerPanel(game);
+        game.getGamePublisher().subscribe(announcerPanel);
+
+        return announcerPanel;
     }
 
     private JPanel createMoveHistoryPanel() {

@@ -2,15 +2,14 @@ package Pieces;
 
 import Game.Board;
 import Game.Move;
-import Pieces.Movesets.Castling;
+import Pieces.Movesets.KnightMoveSet;
 import Pieces.Movesets.MoveSet;
-import Pieces.Movesets.Perpendicular;
 
-public class Rook extends Piece {
-    private static MoveSet[] moveSets = {new Perpendicular(), new Castling()};
+public class Knight extends Piece {
+    private static MoveSet[] moveSets = {new KnightMoveSet()};
 
-    public Rook(boolean isWhite) {
-        super("R", isWhite);
+    public Knight(boolean isWhite) {
+        super("N", isWhite);
     }
 
     @Override
@@ -26,6 +25,6 @@ public class Rook extends Piece {
 
     @Override
     public String fileName() {
-        return "rook_" + colorSubstring() + ".png";
+        return "knight_" + colorSubstring() + ".png";
     }
 }

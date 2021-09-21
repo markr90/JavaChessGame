@@ -2,12 +2,13 @@ package GameDisplay.Board;
 
 import Game.Game;
 import Game.Coordinate;
+import Game.IGameObserver;
 import GameDisplay.MouseClicks.MouseMoveHandler;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ChessBoard extends JPanel {
+public class ChessBoard extends JPanel implements IGameObserver {
     private BoardSquare[][] boardSquares = new BoardSquare[8][8];
     private Game game;
 
@@ -74,5 +75,14 @@ public class ChessBoard extends JPanel {
         // the smaller of the two sizes
         int s = (w>h ? h : w);
         return new Dimension(s,s);
+    }
+
+    @Override
+    public void update(Game game) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                boardSquares[i][j].drawPiece();
+            }
+        }
     }
 }

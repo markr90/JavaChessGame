@@ -34,8 +34,6 @@ public class MouseMoveHandler implements MouseListener {
             Move move = new Move(from.getSpot().getCoordinate(), boardSquare.getSpot().getCoordinate());
             game.handleMove(move);
             from.setHighlighted(false);
-            from.drawPiece();
-            boardSquare.drawPiece();
             clickCount = 0;
         }
     }

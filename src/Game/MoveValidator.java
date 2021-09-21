@@ -10,14 +10,12 @@ public class MoveValidator {
         }
 
         if (!IsMoveInbounds(move)) {
-            System.out.println("Invalid move out oof bounds");
             return false;
         }
 
         Spot currentSpot = game.Board().getSpot(move.from());
 
         if (!currentSpot.hasPiece()) {
-            System.out.println("Invalid move has no piece");
             return false;
         }
 

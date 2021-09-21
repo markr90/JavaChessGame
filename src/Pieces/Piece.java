@@ -1,7 +1,9 @@
 package Pieces;
 
 import Game.Board;
+import Game.Coordinate;
 import Game.Move;
+import Pieces.Movesets.MoveSet;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -14,10 +16,12 @@ public abstract class Piece implements IPiece {
     private boolean isWhite;
     private BufferedImage image;
 
-    public Piece(String symbol, boolean isWhite) throws IOException {
+    public Piece(String symbol, boolean isWhite){
         this.symbol = symbol;
         this.isWhite = isWhite;
         String fn = fileName(symbol, isWhite);
+
+
         URL imageFile = getClass().getResource("/Resources/Images/" + fn);
         try {
             image = ImageIO.read(new File(imageFile.getPath()));
@@ -27,19 +31,20 @@ public abstract class Piece implements IPiece {
     }
 
     @Override
-    public BufferedImage Image() {
+    public BufferedImage image() {
         return image;
     }
 
     @Override
-    public boolean IsWhite() {
+    public boolean isWhite() {
         return isWhite;
     }
 
-    public abstract boolean IsMoveLegal(Board board, Move move);
+
+    public abstract boolean isMoveLegal(Board board, Move move);
 
     @Override
-    public String Symbol() {
+    public String symbol() {
         return symbol;
     }
 

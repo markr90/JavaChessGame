@@ -45,7 +45,7 @@ public class BoardSquare extends JButton {
 
     public void drawPiece() {
         if (spot.hasPiece()) {
-            BufferedImage bi = resizeIcon(spot.getPiece().Image(), 64, 64);
+            BufferedImage bi = resizeIcon(spot.getPiece().image(), 64, 64);
             ImageIcon icon = new ImageIcon(bi);
             setIcon(icon);
         } else {

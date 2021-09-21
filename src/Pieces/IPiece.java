@@ -6,8 +6,8 @@ import Game.Move;
 import java.awt.image.BufferedImage;
 
 public interface IPiece {
-    public boolean IsMoveLegal(Board board, Move move);
-    public String Symbol();
-    public BufferedImage Image();
-    public boolean IsWhite();
+    boolean isMoveLegal(Board board, Move move);
+    String symbol();
+    BufferedImage image();
+    boolean isWhite();
 }

@@ -31,11 +31,11 @@ public class Board {
         currentState[7][0].setPiece(PieceFactory.createPiece(Pieces.Rook,true));
         currentState[7][7].setPiece(PieceFactory.createPiece(Pieces.Rook,true));
         for (int j = 0; j < 8; j++) {
-            currentState[6][j].setPiece(PieceFactory.createPiece(Pieces.Pawn, true));
+            //currentState[6][j].setPiece(PieceFactory.createPiece(Pieces.Pawn, true));
         }
 
         for (int j = 0; j < 8; j++) {
-            currentState[1][j].setPiece(PieceFactory.createPiece(Pieces.Pawn, false));
+            //currentState[1][j].setPiece(PieceFactory.createPiece(Pieces.Pawn, false));
         }
         currentState[0][0].setPiece(PieceFactory.createPiece(Pieces.Rook,false));
         currentState[0][7].setPiece(PieceFactory.createPiece(Pieces.Rook,false));

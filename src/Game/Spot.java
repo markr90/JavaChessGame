@@ -17,7 +17,7 @@ public class Spot {
     }
 
     public String symbolRepresentation() {
-        return _piece != null ? _piece.Symbol() : ".";
+        return _piece != null ? _piece.symbol() : ".";
     }
 
     public boolean hasPiece() {

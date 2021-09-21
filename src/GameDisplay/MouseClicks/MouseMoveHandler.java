@@ -24,7 +24,6 @@ public class MouseMoveHandler implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println(clickCount);
         BoardSquare boardSquare = (BoardSquare) e.getSource();
         if (clickCount == 0) {
             this.from = boardSquare;
@@ -32,7 +31,6 @@ public class MouseMoveHandler implements MouseListener {
         }
 
         if (clickCount == 1) {
-            System.out.println("from: " + new String(from.getSpot().getCoordinate().algebraic()));
             Move move = new Move(from.getSpot().getCoordinate(), boardSquare.getSpot().getCoordinate());
             game.handleMove(move);
             from.setHighlighted(false);

@@ -21,13 +21,12 @@ public class MoveValidator {
             return false;
         }
 
-        if (currentSpot.getPiece().IsWhite() != game.CurPlayer().IsWhite()) {
-            System.out.println("Invalid move not same color");
+        if (currentSpot.getPiece().isWhite() != game.CurPlayer().IsWhite()) {
             return false;
         }
 
         IPiece piece = currentSpot.getPiece();
-        if (!piece.IsMoveLegal(game.Board(), move)) {
+        if (!piece.isMoveLegal(game.Board(), move)) {
             return false;
         }
 

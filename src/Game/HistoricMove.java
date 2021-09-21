@@ -9,8 +9,8 @@ public class HistoricMove extends Move {
     public HistoricMove(Move move, IPiece pieceMoved, IPiece pieceCaptured) {
         super(move.from(), move.to());
 
-        this.pieceMoved = pieceMoved.Symbol();
-        this.pieceCaptured = pieceCaptured == null ? "" : pieceCaptured.Symbol();
+        this.pieceMoved = pieceMoved.symbol();
+        this.pieceCaptured = pieceCaptured == null ? "" : pieceCaptured.symbol();
     }
 
     public String algebraic() {

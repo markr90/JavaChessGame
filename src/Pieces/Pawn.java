@@ -2,86 +2,25 @@ package Pieces;
 
 import Game.Board;
 import Game.Move;
-import java.io.IOException;
+import Pieces.Movesets.MoveSet;
+import Pieces.Movesets.PawnForward;
+import Pieces.Movesets.PawnCapture;
 
 public class Pawn extends Piece {
-    private boolean isFirstMove = true;
+    private static MoveSet[] moveSets = {new PawnForward(), new PawnCapture()};
 
-    public Pawn(boolean isWhite) throws IOException {
+    public Pawn(boolean isWhite) {
         super("P", isWhite);
     }
 
     @Override
-    public boolean IsMoveLegal(Board board, Move move) {
-        boolean moveIsValid = isMoveValid(board, move);
-        if (isFirstMove && moveIsValid) {
-            isFirstMove = false;
-        }
-        return moveIsValid;
-    }
-
-    private boolean isMoveValid(Board board, Move move) {
-        if (IsWhite()) {
-            // 1 step forward
-            if (isOneStepForward(move)) {
-                // if occupied return false
-                return !board.getSpot(move.to()).hasPiece();
-            } else if (isOneStepDiagonalForward(move)) {
-                return board.getSpot(move.to()).hasPiece() && !board.getSpot(move.to()).getPiece().IsWhite();
-            } else {
-                return false;
+    public boolean isMoveLegal(Board board, Move move) {
+        for (MoveSet moveSet: moveSets) {
+            if (moveSet.isValidMove(board, move)) {
+                return true;
             }
         }
-        else {
-            // 1 step backward
-            if (isOneStepBackward(move)) {
-                // if occupied return false
-                return !board.getSpot(move.to()).hasPiece();
-            } else if (isOneStepDiagonalBackward(move)) {
-                return board.getSpot(move.to()).hasPiece() && board.getSpot(move.to()).getPiece().IsWhite();
-            } else {
-                return false;
-            }
-        }
-    }
 
-    private boolean isOneStepForward(Move move) {
-        boolean isOneStep =
-                (move.to().row() - move.from().row() == -1)
-                        && (move.to().col() - move.from().col() == 0);
-        if (isFirstMove) {
-            boolean isTwoStep =
-                    (move.to().row() - move.from().row() == -2)
-                            && (move.to().col() - move.from().col() == 0);
-            return isTwoStep || isOneStep;
-        } else {
-            return isOneStep;
-        }
-    }
-
-    private boolean isOneStepDiagonalForward(Move move) {
-        return
-                (move.to().row() - move.from().row() == -1)
-                        && (Math.abs(move.to().col() - move.from().col()) == 1);
-    }
-
-    private boolean isOneStepBackward(Move move) {
-        boolean isOneStep =
-                (move.to().row() - move.from().row() == 1)
-                        && (move.to().col() - move.from().col() == 0);
-        if (isFirstMove) {
-            boolean isTwoStep =
-                    (move.to().row() - move.from().row() == 2)
-                            && (move.to().col() - move.from().col() == 0);
-            return isTwoStep || isOneStep;
-        } else {
-            return isOneStep;
-        }
-    }
-
-    private boolean isOneStepDiagonalBackward(Move move) {
-        return
-                (move.to().row() - move.from().row() == 1)
-                        && (Math.abs(move.to().col() - move.from().col()) == 1);
+        return false;
     }
 }

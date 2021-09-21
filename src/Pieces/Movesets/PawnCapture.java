@@ -22,6 +22,11 @@ public class PawnCapture implements MoveSet {
 
         Coordinate t = move.to();
         Coordinate f = move.from();
+
+        if (t.row() == 0 || t.row() == 7) {
+            move.flagAsPawnPromotionMove();
+        }
+
         if (isWhite) {
             return t.row() - f.row() == -1 && Math.abs(t.col() - f.col()) == 1;
         } else {

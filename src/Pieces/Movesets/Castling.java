@@ -20,6 +20,11 @@ public class Castling implements MoveSet {
             return false;
         }
 
+        // can only castle on same rank
+        if (move.to().row() != move.from().row()) {
+            return false;
+        }
+
         if (sourcePiece.isWhite() != targetPiece.isWhite()) {
             return false;
         }
@@ -29,7 +34,6 @@ public class Castling implements MoveSet {
         }
 
         // is king in check?
-        // set castled flag to king??
 
         if (collisionDetected(board, move)) {
             return false;

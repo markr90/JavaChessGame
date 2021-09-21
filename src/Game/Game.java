@@ -61,7 +61,7 @@ public class Game {
             moveHistory.addMove(new HistoricMove(move, pieceMoved, pieceCaptured));
             this.board.MovePieces(move);
             whitesMove = !whitesMove;
+            gamePublisher.update(this);
         }
-        gamePublisher.update(this);
     }
 }

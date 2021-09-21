@@ -50,9 +50,10 @@ public class Display implements IDisplay {
         frame.pack();
         frame.setMinimumSize(frame.getSize());
 
+        game.Board().setPawnPromotionListener(new PawnPromotionDialog(frame, "Select pawn promotion", true));
+
         frame.setLocationRelativeTo(null);
 
         return frame;
     }
-
 }

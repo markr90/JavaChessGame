@@ -4,6 +4,7 @@ public class Move {
     private Coordinate from;
     private Coordinate to;
     private boolean castlingMove = false;
+    private boolean pawnPromotionMove = false;
 
     public Move(String move) {
         char[] _move = move.toLowerCase().toCharArray();
@@ -30,6 +31,14 @@ public class Move {
 
     public boolean isCastlingMove() {
         return castlingMove;
+    }
+
+    public void flagAsPawnPromotionMove() {
+        pawnPromotionMove = true;
+    }
+
+    public boolean isPawnPromotionMove() {
+        return pawnPromotionMove;
     }
 
     private int ColToIndex(char col) {

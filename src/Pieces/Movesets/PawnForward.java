@@ -24,6 +24,10 @@ public class PawnForward implements MoveSet {
             return false;
         }
 
+        if (t.row() == 0 || t.row() == 7) {
+            move.flagAsPawnPromotionMove();
+        }
+
         if (isWhite) {
             return t.row() < f.row();
         } else {

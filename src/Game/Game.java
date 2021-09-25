@@ -36,7 +36,7 @@ public class Game {
 
     public void startGame() throws Exception {
         board.Reset();
-        whitesMove = true;
+        whitesMove = false;
         gameState = GameState.ACTIVE;
         display.Show();
     }

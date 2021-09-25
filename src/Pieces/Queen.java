@@ -8,7 +8,7 @@ public class Queen extends Piece {
     private static MoveSet[] moveSets = {new Perpendicular(), new Diagonal()};
 
     public Queen(boolean isWhite) {
-        super("K", isWhite, moveSets);
+        super("Q", isWhite, moveSets);
     }
 
     @Override

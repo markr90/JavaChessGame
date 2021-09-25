@@ -8,7 +8,6 @@ import Pieces.PieceFactory;
 import Pieces.Pieces;
 import Pieces.IPiece;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Board {
@@ -71,29 +70,38 @@ public class Board {
 //        for (int j = 0; j < 8; j++) {
 //            initPiece(6, j, Pieces.Pawn, true);
 //        }
-//        initPiece(7, 0, Pieces.Rook, true);
-//        initPiece(7, 7, Pieces.Rook, true);
-//        initPiece(7, 1, Pieces.Knight, true);
-//        initPiece(7, 6, Pieces.Knight, true);
-//        initPiece(7, 2, Pieces.Bishop, true);
-//        initPiece(7, 5, Pieces.Bishop, true);
-//        initPiece(7, 3, Pieces.Queen, true);
-        initPiece(3, 4, Pieces.Queen, true);
-        initPiece(4, 3, Pieces.Bishop, true);
+
+        initPiece(6, 0, Pieces.Pawn, true);
+        initPiece(6, 1, Pieces.Pawn, true);
+        initPiece(6, 2, Pieces.Pawn, true);
+        initPiece(6, 3, Pieces.Pawn, true);
+        initPiece(6, 4, Pieces.Pawn, true);
+        initPiece(5, 5, Pieces.Pawn, true);
+        initPiece(4, 6, Pieces.Pawn, true);
+        initPiece(6, 7, Pieces.Pawn, true);
+
+
+        initPiece(7, 0, Pieces.Rook, true);
+        initPiece(7, 7, Pieces.Rook, true);
+        initPiece(7, 1, Pieces.Knight, true);
+        initPiece(7, 6, Pieces.Knight, true);
+        initPiece(7, 2, Pieces.Bishop, true);
+        initPiece(7, 5, Pieces.Bishop, true);
+        initPiece(7, 3, Pieces.Queen, true);
         whiteKing = initPiece(7, 4, Pieces.King, true);
 
 
 //        for (int j = 0; j < 8; j++) {
 //            initPiece(1, j, Pieces.Pawn, false);
 //        }
-//        initPiece(0, 0, Pieces.Rook, false);
-//        initPiece(0, 7, Pieces.Rook, false);
-//        initPiece(0, 1, Pieces.Knight, false);
-//        initPiece(0, 6, Pieces.Knight, false);
-//        initPiece(0, 2, Pieces.Bishop, false);
-//        initPiece(0, 5, Pieces.Bishop, false);
-//        initPiece(0, 3, Pieces.Queen, false);
-        blackKing = initPiece(0, 7, Pieces.King, false);
+        initPiece(0, 0, Pieces.Rook, false);
+        initPiece(0, 7, Pieces.Rook, false);
+        initPiece(0, 1, Pieces.Knight, false);
+        initPiece(0, 6, Pieces.Knight, false);
+        initPiece(0, 2, Pieces.Bishop, false);
+        initPiece(0, 5, Pieces.Bishop, false);
+        initPiece(0, 3, Pieces.Queen, false);
+        blackKing = initPiece(0, 4, Pieces.King, false);
     }
 
     public Spot getSpot(Coordinate coordinate) {

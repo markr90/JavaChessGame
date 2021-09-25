@@ -1,31 +1,35 @@
 package Game;
 
-import java.util.ArrayList;
+import java.util.Stack;
 
 public class MoveHistory {
-    public ArrayList<HistoricMove> moveHistory;
+    public Stack<AlgebraicNotation> history;
 
     public MoveHistory() {
-        moveHistory = new ArrayList<>();
+        history = new Stack<>();
     }
 
-    public ArrayList<HistoricMove> moves() {
-        return moveHistory;
+    public Stack<AlgebraicNotation> moves() {
+        return history;
     }
 
-    public HistoricMove lastMove() {
-        if (!moveHistory.isEmpty()) {
-            return moveHistory.get(moveHistory.size() - 1);
+    public AlgebraicNotation lastMove() {
+        if (!history.isEmpty()) {
+            return history.get(history.size() - 1);
         } else {
             return null;
         }
     }
 
-    public void addMove(HistoricMove move) {
-        moveHistory.add(move);
+    public void addMove(AlgebraicNotation move) {
+        history.add(move);
+    }
+
+    public AlgebraicNotation pop() {
+        return history.pop();
     }
 
     public void reset() {
-        moveHistory = new ArrayList<>();
+        history = new Stack<>();
     }
 }

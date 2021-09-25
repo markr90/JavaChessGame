@@ -1,16 +1,18 @@
 package Game;
 
+import Game.Undo.ClearSpot;
+import Game.Undo.ReduceMoveCounter;
+import Game.Undo.RestoreSpot;
 import GameDisplay.PawnPromotionListener;
 import Pieces.PieceFactory;
 import Pieces.Pieces;
 import Pieces.IPiece;
 
-import java.util.ArrayList;
-
 public class Board {
     private Spot[][] currentState;
-    private ArrayList<IPiece> piecesCaptured;
     private PawnPromotionListener pawnPromotionListener;
+    private IPiece whiteKing;
+    private IPiece blackKing;
 
     public Board() throws Exception {
         currentState = new Spot[8][8];
@@ -29,62 +31,49 @@ public class Board {
     }
 
     public void MovePieces(Move move) {
-        Spot currentSpot = this.getSpot(move.from());
-        Spot newSpot = this.getSpot(move.to());
+        move.resetUndoInstructions();
         if (move.isCastlingMove()) {
             processCastlingMove(move);
         } else if (move.isPawnPromotionMove()) {
-            boolean isWhite = currentSpot.getPiece().isWhite();
-            newSpot.setPiece(currentSpot.getPiece());
-            newSpot.getPiece().incrementMoveCounter();
-            currentSpot.clearPiece();
-            IPiece piece = pawnPromotionListener.promptPromotion(isWhite);
-            newSpot.setPiece(piece);
+            processPawnPromotion(move);
         } else {
-            if (newSpot.hasPiece()) {
-                addPieceToCaptured(newSpot.getPiece());
-            }
-            newSpot.setPiece(currentSpot.getPiece());
-            newSpot.getPiece().incrementMoveCounter();
-            currentSpot.clearPiece();
+            processRegularMove(move);
         }
     }
 
-    public ArrayList<IPiece> getPiecesCaptured() {
-        return piecesCaptured;
+    public void undoMove(Move move) {
+        move.undo();
     }
 
-    private void addPieceToCaptured(IPiece piece) {
-        piecesCaptured.add(piece);
+    public IPiece getKing(boolean isWhite) {
+        return isWhite ? whiteKing : blackKing;
     }
 
     public void Reset() throws Exception {
-        piecesCaptured = new ArrayList<IPiece>();
-//        currentState[7][0].setPiece(PieceFactory.createPiece(Pieces.Rook,true));
-//        currentState[7][7].setPiece(PieceFactory.createPiece(Pieces.Rook,true));
-//        currentState[7][1].setPiece(PieceFactory.createPiece(Pieces.Knight,true));
-//        currentState[7][6].setPiece(PieceFactory.createPiece(Pieces.Knight,true));
-//        currentState[7][2].setPiece(PieceFactory.createPiece(Pieces.Bishop,true));
-//        currentState[7][5].setPiece(PieceFactory.createPiece(Pieces.Bishop,true));
-//        currentState[7][3].setPiece(PieceFactory.createPiece(Pieces.Queen,true));
-        currentState[7][4].setPiece(PieceFactory.createPiece(Pieces.King,true));
 //        for (int j = 0; j < 8; j++) {
-//            currentState[6][j].setPiece(PieceFactory.createPiece(Pieces.Pawn, true));
+//            initPiece(6, j, Pieces.Pawn, true);
 //        }
-//
-//        for (int j = 0; j < 8; j++) {
-//            currentState[1][j].setPiece(PieceFactory.createPiece(Pieces.Pawn, false));
-//        }
-//        currentState[0][0].setPiece(PieceFactory.createPiece(Pieces.Rook,false));
-        currentState[0][7].setPiece(PieceFactory.createPiece(Pieces.Rook,false));
-//        currentState[0][1].setPiece(PieceFactory.createPiece(Pieces.Knight,false));
-//        currentState[0][6].setPiece(PieceFactory.createPiece(Pieces.Knight,false));
-//        currentState[0][2].setPiece(PieceFactory.createPiece(Pieces.Bishop,false));
-//        currentState[0][5].setPiece(PieceFactory.createPiece(Pieces.Bishop,false));
-//        currentState[0][3].setPiece(PieceFactory.createPiece(Pieces.Queen,false));
-//        currentState[0][4].setPiece(PieceFactory.createPiece(Pieces.King,false));
+        initPiece(7, 0, Pieces.Rook, true);
+        initPiece(7, 7, Pieces.Rook, true);
+//        initPiece(7, 1, Pieces.Knight, true);
+//        initPiece(7, 6, Pieces.Knight, true);
+//        initPiece(7, 2, Pieces.Bishop, true);
+//        initPiece(7, 5, Pieces.Bishop, true);
+//        initPiece(7, 3, Pieces.Queen, true);
+        whiteKing = initPiece(7, 4, Pieces.King, true);
 
-        currentState[1][0].setPiece(PieceFactory.createPiece(Pieces.Pawn, true));
+
+//        for (int j = 0; j < 8; j++) {
+//            initPiece(1, j, Pieces.Pawn, false);
+//        }
+//        initPiece(0, 0, Pieces.Rook, false);
+//        initPiece(0, 7, Pieces.Rook, false);
+//        initPiece(0, 1, Pieces.Knight, false);
+//        initPiece(0, 6, Pieces.Knight, false);
+//        initPiece(0, 2, Pieces.Bishop, false);
+//        initPiece(0, 5, Pieces.Bishop, false);
+//        initPiece(0, 3, Pieces.Queen, false);
+        blackKing = initPiece(0, 4, Pieces.King, false);
     }
 
     public Spot getSpot(Coordinate coordinate) {
@@ -93,6 +82,40 @@ public class Board {
 
     public Spot getSpot(int row, int col)  {
         return currentState[row][col];
+    }
+
+    private void processRegularMove(Move move) {
+        Spot currentSpot = this.getSpot(move.from());
+        Spot newSpot = this.getSpot(move.to());
+        // build reverse move
+        if (newSpot.hasPiece()) {
+            move.addUndoInstruction(new RestoreSpot(newSpot, newSpot.getPiece()));
+        } else {
+            move.addUndoInstruction(new ClearSpot(newSpot));
+        }
+        move.addUndoInstruction(new RestoreSpot(currentSpot, currentSpot.getPiece()));
+        move.addUndoInstruction(new ReduceMoveCounter(currentSpot.getPiece()));
+        // execute move pieces
+        newSpot.setPiece(currentSpot.getPiece());
+        newSpot.getPiece().incrementMoveCounter();
+        newSpot.getPiece().setCurrentCoordinate(newSpot.getCoordinate());
+        currentSpot.clearPiece();
+    }
+
+    private void processPawnPromotion(Move move) {
+        Spot currentSpot = this.getSpot(move.from());
+        Spot newSpot = this.getSpot(move.to());
+        move.addUndoInstruction(new RestoreSpot(currentSpot, currentSpot.getPiece()));
+        move.addUndoInstruction(new ClearSpot(newSpot));
+
+        boolean isWhite = currentSpot.getPiece().isWhite();
+        newSpot.setPiece(currentSpot.getPiece());
+        newSpot.getPiece().setCurrentCoordinate(null);
+        currentSpot.clearPiece();
+        IPiece piece = pawnPromotionListener.promptPromotion(isWhite);
+        piece.setCurrentCoordinate(newSpot.getCoordinate());
+        newSpot.setPiece(piece);
+
     }
 
     private void processCastlingMove(Move move) {
@@ -109,28 +132,38 @@ public class Board {
             rook = a.getPiece();
         }
 
+        int row = move.from().row();
         // queen side
         if (Math.abs(move.to().col() - move.from().col()) == 4) {
-            if (king.isWhite()) {
-                currentState[7][2].setPiece(king);
-                currentState[7][3].setPiece(rook);
-            } else {
-                currentState[0][2].setPiece(king);
-                currentState[0][3].setPiece(rook);
-            }
+            move.addUndoInstruction(new ClearSpot(currentState[row][2]));
+            move.addUndoInstruction(new ClearSpot(currentState[row][3]));
+            currentState[row][2].setPiece(king);
+            king.setCurrentCoordinate(new Coordinate(row, 2));
+            currentState[row][3].setPiece(rook);
+            rook.setCurrentCoordinate(new Coordinate(row, 3));
         } else {
-            if (king.isWhite()) {
-                currentState[7][6].setPiece(king);
-                currentState[7][5].setPiece(rook);
-            } else {
-                currentState[0][6].setPiece(king);
-                currentState[0][5].setPiece(rook);
-            }
+            move.addUndoInstruction(new ClearSpot(currentState[row][5]));
+            move.addUndoInstruction(new ClearSpot(currentState[row][6]));
+            currentState[row][6].setPiece(king);
+            king.setCurrentCoordinate(new Coordinate(row, 6));
+            currentState[row][5].setPiece(rook);
+            rook.setCurrentCoordinate(new Coordinate(row, 5));
         }
 
+        move.addUndoInstruction(new RestoreSpot(a, a.getPiece()));
+        move.addUndoInstruction(new ReduceMoveCounter(a.getPiece()));
         a.setPiece(null);
+        move.addUndoInstruction(new RestoreSpot(b, b.getPiece()));
+        move.addUndoInstruction(new ReduceMoveCounter(b.getPiece()));
         b.setPiece(null);
         king.incrementMoveCounter();
         rook.incrementMoveCounter();
+    }
+
+    private IPiece initPiece(int row, int col, Pieces pieceType, boolean isWhite) throws Exception {
+        IPiece piece = PieceFactory.createPiece(pieceType, isWhite);
+        getSpot(row, col).setPiece(piece);
+        piece.setCurrentCoordinate(getSpot(row, col).getCoordinate());
+        return piece;
     }
 }

@@ -1,6 +1,7 @@
 package Pieces;
 
 import Game.Board;
+import Game.Coordinate;
 import Game.Move;
 
 import javax.imageio.ImageIO;
@@ -15,6 +16,7 @@ public abstract class Piece implements IPiece {
     private boolean isWhite;
     private ImageIcon icon;
     protected int steps = 0;
+    private Coordinate currentCoordinate;
 
     public Piece(String symbol, boolean isWhite){
         this.symbol = symbol;
@@ -32,8 +34,23 @@ public abstract class Piece implements IPiece {
     }
 
     @Override
+    public void setCurrentCoordinate(Coordinate newCoord) {
+        currentCoordinate = newCoord;
+    }
+
+    @Override
+    public Coordinate getCurrentCoordinate() {
+        return currentCoordinate;
+    }
+
+    @Override
     public void incrementMoveCounter() {
         this.steps++;
+    }
+
+    @Override
+    public void reduceMoveCounter() {
+        this.steps--;
     }
 
     @Override

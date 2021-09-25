@@ -3,6 +3,8 @@ package Game;
 import GameDisplay.IDisplay;
 import Pieces.IPiece;
 
+import java.util.Stack;
+
 public class Game {
     private Player whitePlayer;
     private Player blackPlayer;
@@ -12,6 +14,7 @@ public class Game {
     private IDisplay display;
     private MoveHistory moveHistory;
     private GamePublisher gamePublisher;
+    private Stack<Move> movesDone = new Stack<>();
 
     public Game(Player white, Player black) throws Exception {
         whitePlayer = white;
@@ -26,11 +29,11 @@ public class Game {
         return gamePublisher;
     }
 
-    public void RegisterDisplay(IDisplay display) {
+    public void registerDisplay(IDisplay display) {
         this.display = display;
     }
 
-    public void StartGame() throws Exception {
+    public void startGame() throws Exception {
         board.Reset();
         whitesMove = true;
         gameState = GameState.ACTIVE;
@@ -41,15 +44,15 @@ public class Game {
         return moveHistory;
     }
 
-    public Player CurPlayer() {
+    public Player curPlayer() {
         return whitesMove ? whitePlayer : blackPlayer;
     }
 
-    public GameState GameState() {
+    public GameState gameState() {
         return gameState;
     }
 
-    public Board Board() {
+    public Board board() {
         return board;
     }
 
@@ -58,10 +61,36 @@ public class Game {
         if (validMove) {
             IPiece pieceMoved = this.board.getSpot(move.from()).getPiece();
             IPiece pieceCaptured = this.board.getSpot(move.to()).getPiece();
-            moveHistory.addMove(new HistoricMove(move, pieceMoved, pieceCaptured));
+            moveHistory.addMove(new AlgebraicNotation(move, pieceMoved, pieceCaptured));
             this.board.MovePieces(move);
             whitesMove = !whitesMove;
-            gamePublisher.update(this);
+            doCheckCheck();
+            doCheckMateCheck();
+            movesDone.add(move);
+        }
+        gamePublisher.update(this);
+    }
+
+    public void undoLastMove() {
+        if (movesDone.empty()) {
+            return;
+        }
+        Move lastMoveDone = movesDone.pop();
+        board.undoMove(lastMoveDone);
+        whitesMove = !whitesMove;
+        moveHistory.pop();
+        gamePublisher.update(this);
+    }
+
+    private void doCheckCheck() {
+        boolean isChecked = MoveValidator.isUnderAttack(this, this.board.getKing(whitesMove).getCurrentCoordinate());
+        curPlayer().setChecked(isChecked);
+    }
+
+    private void doCheckMateCheck() {
+        if (!curPlayer().isChecked()) {
+            System.out.println("Check mate!");
+            // Finish game here
         }
     }
 }

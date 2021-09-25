@@ -1,7 +1,7 @@
 package GameDisplay;
 
 import Game.Game;
-import Game.HistoricMove;
+import Game.AlgebraicNotation;
 import Game.IGameObserver;
 
 import javax.swing.*;
@@ -25,8 +25,8 @@ public class MoveHistoryPanel extends JPanel implements IGameObserver {
 
     public void update(Game game) {
         String text = "";
-        for (HistoricMove move : game.getMoveHistory().moves()) {
-            text += move.algebraic() + "\n";
+        for (AlgebraicNotation move : game.getMoveHistory().moves()) {
+            text += move.toString() + "\n";
         }
         textArea.setText(text);
         this.repaint();

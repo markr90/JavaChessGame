@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Game game = new Game(new Player(), new Player());
         Display display = new Display(game, 1000,600);
-        game.RegisterDisplay(display);
-        game.StartGame();
+        game.registerDisplay(display);
+        game.startGame();
     }
 }

@@ -39,8 +39,11 @@ public class PanelFactory {
 
         JMenu gameMenu = new JMenu("Game");
         JMenuItem restart = new JMenuItem("Restart");
+        JMenuItem undoMove = new JMenuItem("Undo last move");
+        undoMove.addActionListener((ae) -> game.undoLastMove());
 
         gameMenu.add(restart);
+        gameMenu.add(undoMove);
 
         menuBar.add(fileMenu);
         menuBar.add(gameMenu);

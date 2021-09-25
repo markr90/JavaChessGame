@@ -19,8 +19,9 @@ public class AnnouncerPanel extends JPanel implements IGameObserver {
     }
 
     private String getMessage() {
-        if (game.GameState() == GameState.ACTIVE) {
-            return game.CurPlayer().Name() + "'s turn";
+        String checkedMessage = game.curPlayer().isChecked() ? ", Check!" : "";
+        if (game.gameState() == GameState.ACTIVE) {
+            return game.curPlayer().Name() + "'s turn" + checkedMessage;
         } else {
             return "INACTIVE";
         }

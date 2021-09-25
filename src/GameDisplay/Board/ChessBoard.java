@@ -23,7 +23,7 @@ public class ChessBoard extends JPanel implements IGameObserver {
         MouseMoveHandler mouseMoveHandler = new MouseMoveHandler(game);
         for (int r = 0; r < 8; r++) {
             for (int c = 0; c < 8; c++) {
-                boardSquares[r][c] = new BoardSquare(game.Board().getSpot(r, c));
+                boardSquares[r][c] = new BoardSquare(game.board().getSpot(r, c));
                 boardSquares[r][c].setBackground(boardSquares[r][c].squareColor());
                 add(boardSquares[r][c]);
                 boardSquares[r][c].addMouseListener(mouseMoveHandler);

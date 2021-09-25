@@ -67,19 +67,15 @@ public class Board {
     }
 
     public void Reset() throws Exception {
-//        for (int j = 0; j < 8; j++) {
-//            initPiece(6, j, Pieces.Pawn, true);
-//        }
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                getSpot(i, j).clearPiece();
+            }
+        }
 
-        initPiece(6, 0, Pieces.Pawn, true);
-        initPiece(6, 1, Pieces.Pawn, true);
-        initPiece(6, 2, Pieces.Pawn, true);
-        initPiece(6, 3, Pieces.Pawn, true);
-        initPiece(6, 4, Pieces.Pawn, true);
-        initPiece(5, 5, Pieces.Pawn, true);
-        initPiece(4, 6, Pieces.Pawn, true);
-        initPiece(6, 7, Pieces.Pawn, true);
-
+        for (int j = 0; j < 8; j++) {
+            initPiece(6, j, Pieces.Pawn, true);
+        }
 
         initPiece(7, 0, Pieces.Rook, true);
         initPiece(7, 7, Pieces.Rook, true);
@@ -91,9 +87,9 @@ public class Board {
         whiteKing = initPiece(7, 4, Pieces.King, true);
 
 
-//        for (int j = 0; j < 8; j++) {
-//            initPiece(1, j, Pieces.Pawn, false);
-//        }
+        for (int j = 0; j < 8; j++) {
+            initPiece(1, j, Pieces.Pawn, false);
+        }
         initPiece(0, 0, Pieces.Rook, false);
         initPiece(0, 7, Pieces.Rook, false);
         initPiece(0, 1, Pieces.Knight, false);

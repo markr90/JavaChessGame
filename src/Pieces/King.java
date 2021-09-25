@@ -1,7 +1,5 @@
 package Pieces;
 
-import Game.Board;
-import Game.Move;
 import Pieces.Movesets.Castling;
 import Pieces.Movesets.Diagonal;
 import Pieces.Movesets.MoveSet;

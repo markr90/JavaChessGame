@@ -14,7 +14,7 @@ public class AnnouncerPanel extends JPanel implements IGameObserver {
     public AnnouncerPanel(Game game) {
         this.game = game;
         label = new JLabel(getMessage());
-        label.setFont(new Font("Sans-serif", Font.PLAIN, 50));
+        label.setFont(new Font("Sans-serif", Font.PLAIN, 42));
         add(label);
     }
 
@@ -22,6 +22,10 @@ public class AnnouncerPanel extends JPanel implements IGameObserver {
         String checkedMessage = game.curPlayer().isChecked() ? ", Check!" : "";
         if (game.gameState() == GameState.ACTIVE) {
             return game.curPlayer().Name() + "'s turn" + checkedMessage;
+        } else if (game.gameState() == GameState.WHITE_WINS) {
+            return "Checkmate! WHITE WINS";
+        } else if (game.gameState() == GameState.BLACK_WINS) {
+            return "Checkmate! BLACK WINS";
         } else {
             return "INACTIVE";
         }

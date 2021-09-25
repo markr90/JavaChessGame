@@ -3,6 +3,7 @@ package Pieces;
 import Game.Board;
 import Game.Coordinate;
 import Game.Move;
+import Pieces.Movesets.MoveSet;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public abstract class Piece implements IPiece {
     private String symbol;
@@ -17,10 +19,12 @@ public abstract class Piece implements IPiece {
     private ImageIcon icon;
     protected int steps = 0;
     private Coordinate currentCoordinate;
+    private MoveSet[] moveSets;
 
-    public Piece(String symbol, boolean isWhite){
+    public Piece(String symbol, boolean isWhite, MoveSet[] moveSets){
         this.symbol = symbol;
         this.isWhite = isWhite;
+        this.moveSets = moveSets;
         String fn = fileName();
 
 
@@ -31,6 +35,11 @@ public abstract class Piece implements IPiece {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        return (obj == this);
     }
 
     @Override
@@ -68,8 +77,38 @@ public abstract class Piece implements IPiece {
         return isWhite;
     }
 
+    @Override
+    public ArrayList<Move> generateAllValidMoves(Board board) {
+        ArrayList<Move> validMoves = new ArrayList<>();
+        Coordinate from = getCurrentCoordinate();
+        Coordinate to;
+        Move move;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                to = new Coordinate(i, j);
+                if (!from.equals(to)) {
+                    move = new Move(from, to);
+                    if (isMoveLegal(board, move)) {
+                        validMoves.add(move);
+                    }
+                }
+            }
+        }
 
-    public abstract boolean isMoveLegal(Board board, Move move);
+        return validMoves;
+    }
+
+
+    @Override
+    public boolean isMoveLegal(Board board, Move move) {
+        for (MoveSet moveSet: moveSets) {
+            if (moveSet.isValidMove(board, move)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     @Override
     public String symbol() {

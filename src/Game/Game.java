@@ -3,6 +3,7 @@ package Game;
 import GameDisplay.IDisplay;
 import Pieces.IPiece;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class Game {
@@ -40,6 +41,10 @@ public class Game {
         display.Show();
     }
 
+    public void endGame(boolean winner) {
+        gameState = winner ? GameState.BLACK_WINS : GameState.WHITE_WINS;
+    }
+
     public MoveHistory getMoveHistory() {
         return moveHistory;
     }
@@ -57,6 +62,10 @@ public class Game {
     }
 
     public void handleMove(Move move) {
+        if (gameState != GameState.ACTIVE) {
+            return;
+        }
+
         boolean validMove = MoveValidator.isMoveValid(this, move);
         if (validMove) {
             IPiece pieceMoved = this.board.getSpot(move.from()).getPiece();
@@ -72,7 +81,7 @@ public class Game {
     }
 
     public void undoLastMove() {
-        if (movesDone.empty()) {
+        if (movesDone.empty() || gameState != GameState.ACTIVE) {
             return;
         }
         Move lastMoveDone = movesDone.pop();
@@ -89,8 +98,31 @@ public class Game {
 
     private void doCheckMateCheck() {
         if (!curPlayer().isChecked()) {
-            System.out.println("Check mate!");
-            // Finish game here
+            return;
         }
+
+        // if one of the valid moves is validated by the validator
+        ArrayList<Move> moves = generateAllPossibleMovesForPlayer(whitesMove);
+        for (Move move: moves) {
+            if (MoveValidator.isMoveValid(this, move)) {
+                // a single valid move was found that removes the check so player is not checkmate
+                return;
+            }
+        }
+
+        // cur player is checkMate
+
+        endGame(whitesMove);
+    }
+
+    private ArrayList<Move> generateAllPossibleMovesForPlayer(boolean isWhite) {
+        ArrayList<Spot> spotsOfPlayer = board.getSpotsWithPiecesOfPlayer(isWhite);
+        ArrayList<Move> validMoves = new ArrayList<>();
+
+        for (Spot spot: spotsOfPlayer) {
+            validMoves.addAll(spot.getPiece().generateAllValidMoves(board));
+        }
+
+        return validMoves;
     }
 }

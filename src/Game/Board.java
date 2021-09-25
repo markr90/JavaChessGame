@@ -8,6 +8,9 @@ import Pieces.PieceFactory;
 import Pieces.Pieces;
 import Pieces.IPiece;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Board {
     private Spot[][] currentState;
     private PawnPromotionListener pawnPromotionListener;
@@ -41,6 +44,21 @@ public class Board {
         }
     }
 
+    public ArrayList<Spot> getSpotsWithPiecesOfPlayer(boolean isWhite) {
+        ArrayList<Spot> spots = new ArrayList<>();
+        Spot spot;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                spot = getSpot(i, j);
+                if (spot.hasPiece() && spot.getPiece().isWhite() == isWhite) {
+                    spots.add(spot);
+                }
+            }
+        }
+
+        return spots;
+    }
+
     public void undoMove(Move move) {
         move.undo();
     }
@@ -53,13 +71,15 @@ public class Board {
 //        for (int j = 0; j < 8; j++) {
 //            initPiece(6, j, Pieces.Pawn, true);
 //        }
-        initPiece(7, 0, Pieces.Rook, true);
-        initPiece(7, 7, Pieces.Rook, true);
+//        initPiece(7, 0, Pieces.Rook, true);
+//        initPiece(7, 7, Pieces.Rook, true);
 //        initPiece(7, 1, Pieces.Knight, true);
 //        initPiece(7, 6, Pieces.Knight, true);
 //        initPiece(7, 2, Pieces.Bishop, true);
 //        initPiece(7, 5, Pieces.Bishop, true);
 //        initPiece(7, 3, Pieces.Queen, true);
+        initPiece(3, 4, Pieces.Queen, true);
+        initPiece(4, 3, Pieces.Bishop, true);
         whiteKing = initPiece(7, 4, Pieces.King, true);
 
 
@@ -73,7 +93,7 @@ public class Board {
 //        initPiece(0, 2, Pieces.Bishop, false);
 //        initPiece(0, 5, Pieces.Bishop, false);
 //        initPiece(0, 3, Pieces.Queen, false);
-        blackKing = initPiece(0, 4, Pieces.King, false);
+        blackKing = initPiece(0, 7, Pieces.King, false);
     }
 
     public Spot getSpot(Coordinate coordinate) {

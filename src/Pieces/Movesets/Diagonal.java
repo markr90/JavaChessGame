@@ -1,8 +1,11 @@
 package Pieces.Movesets;
 
 import Game.Board;
+import Game.Coordinate;
 import Game.Move;
 import Game.Spot;
+
+import java.util.ArrayList;
 
 public class Diagonal implements MoveSet {
     private int maxDistance;
@@ -34,6 +37,11 @@ public class Diagonal implements MoveSet {
         }
 
         return true;
+    }
+
+    @Override
+    public ArrayList<Move> generateAllValidMoves(Board board, Coordinate coord, boolean isWhite) {
+        return new ArrayList<>();
     }
 
     private boolean thereIsCollision(Board board, Move move) {

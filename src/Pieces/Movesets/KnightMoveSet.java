@@ -1,8 +1,11 @@
 package Pieces.Movesets;
 
 import Game.Board;
+import Game.Coordinate;
 import Game.Move;
 import Game.Spot;
+
+import java.util.ArrayList;
 
 public class KnightMoveSet implements MoveSet {
     @Override
@@ -16,6 +19,11 @@ public class KnightMoveSet implements MoveSet {
         }
 
         return true;
+    }
+
+    @Override
+    public ArrayList<Move> generateAllValidMoves(Board board, Coordinate coord, boolean isWhite) {
+        return new ArrayList<>();
     }
 
     private boolean isKnightMove(Move move) {

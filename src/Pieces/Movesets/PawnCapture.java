@@ -4,6 +4,8 @@ import Game.Board;
 import Game.Coordinate;
 import Game.Move;
 
+import java.util.ArrayList;
+
 public class PawnCapture implements MoveSet {
     @Override
     public boolean isValidMove(Board board, Move move) {
@@ -32,6 +34,11 @@ public class PawnCapture implements MoveSet {
         } else {
             return t.row() - f.row() == 1 && Math.abs(t.col() - f.col()) == 1;
         }
+    }
+
+    @Override
+    public ArrayList<Move> generateAllValidMoves(Board board, Coordinate coord, boolean isWhite) {
+        return new ArrayList<>();
     }
 
 

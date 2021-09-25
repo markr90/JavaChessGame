@@ -4,6 +4,8 @@ import Game.Board;
 import Game.Coordinate;
 import Game.Move;
 
+import java.util.ArrayList;
+
 public class PawnForward implements MoveSet {
     @Override
     public boolean isValidMove(Board board, Move move) {
@@ -33,6 +35,11 @@ public class PawnForward implements MoveSet {
         } else {
             return t.row() > f.row();
         }
+    }
+
+    @Override
+    public ArrayList<Move> generateAllValidMoves(Board board, Coordinate coord, boolean isWhite) {
+        return new ArrayList<>();
     }
 
     private boolean checkCollision(Board board, Move move) {

@@ -2,7 +2,10 @@ package Pieces.Movesets;
 
 import Game.Board;
 import Game.Move;
+import Game.Coordinate;
 import Game.Spot;
+
+import java.util.ArrayList;
 
 public class Perpendicular implements MoveSet {
     private int maxDistance;
@@ -30,11 +33,33 @@ public class Perpendicular implements MoveSet {
         }
 
         if (targetIsSameColor(board, move)) {
-            // todo castling?
             return false;
         }
 
         return true;
+    }
+
+    @Override
+    public ArrayList<Move> generateAllValidMoves(Board board, Coordinate coord, boolean isWhite) {
+        ArrayList<Move> potentialMoves = createPotentialMoves(coord);
+        potentialMoves.removeIf(m -> !isValidMove(board, m));
+        return potentialMoves;
+    }
+
+    private ArrayList<Move> createPotentialMoves(Coordinate coord) {
+        ArrayList<Coordinate> potentialToCoordinates = new ArrayList<>();
+        for (int i = 1; i < 8; i++) {
+            potentialToCoordinates.add(new Coordinate(coord.row(), coord.col() + i));
+            potentialToCoordinates.add(new Coordinate(coord.row(), coord.col() - i));
+            potentialToCoordinates.add(new Coordinate(coord.row() + i, coord.col()));
+            potentialToCoordinates.add(new Coordinate(coord.row() - i, coord.col()));
+        }
+        potentialToCoordinates.removeIf(t -> !t.IsInbounds());
+        ArrayList<Move> potentialMoves = new ArrayList<>();
+        for (Coordinate t: potentialToCoordinates) {
+            potentialMoves.add(new Move(coord, t));
+        }
+        return potentialMoves;
     }
 
     private boolean thereIsCollision(Board board, Move move) {

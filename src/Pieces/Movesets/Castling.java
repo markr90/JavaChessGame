@@ -1,8 +1,11 @@
 package Pieces.Movesets;
 
 import Game.Board;
+import Game.Coordinate;
 import Game.Move;
 import Pieces.IPiece;
+
+import java.util.ArrayList;
 
 public class Castling implements MoveSet {
 
@@ -44,6 +47,11 @@ public class Castling implements MoveSet {
 
         move.flagAsCastlingMove();
         return true;
+    }
+
+    @Override
+    public ArrayList<Move> generateAllValidMoves(Board board, Coordinate coord, boolean isWhite) {
+        return new ArrayList<>();
     }
 
     private boolean involvesAKingAndRook(IPiece sourcePiece, IPiece targetPiece) {

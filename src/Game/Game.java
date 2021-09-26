@@ -37,6 +37,7 @@ public class Game {
 
     public void startGame() throws Exception {
         board.Reset();
+        moveHistory.reset();
         whitePlayer.setChecked(false);
         blackPlayer.setChecked(false);
         whitesMove = true;

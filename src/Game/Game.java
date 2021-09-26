@@ -16,6 +16,7 @@ public class Game {
     private MoveHistory moveHistory;
     private GamePublisher gamePublisher;
     private Stack<Move> movesDone = new Stack<>();
+    private String infoMessage = "";
 
     public Game(Player white, Player black) throws Exception {
         whitePlayer = white;
@@ -59,6 +60,10 @@ public class Game {
         return gameState;
     }
 
+    public String getInfoMessage() {
+        return infoMessage;
+    }
+
     public Board board() {
         return board;
     }
@@ -68,8 +73,9 @@ public class Game {
             return;
         }
 
-        boolean validMove = MoveValidator.isMoveValid(this, move);
-        if (validMove) {
+        MoveValidationResult validMove = MoveValidator.validateMove(this, move);
+        infoMessage = validMove.message();
+        if (validMove.isValid()) {
             IPiece pieceMoved = this.board.getSpot(move.from()).getPiece();
             IPiece pieceCaptured = this.board.getSpot(move.to()).getPiece();
             moveHistory.addMove(new AlgebraicNotation(move, pieceMoved, pieceCaptured));
@@ -106,7 +112,7 @@ public class Game {
         // if one of the valid moves is validated by the validator
         ArrayList<Move> moves = generateAllPossibleMovesForPlayer(whitesMove);
         for (Move move: moves) {
-            if (MoveValidator.isMoveValid(this, move)) {
+            if (MoveValidator.validateMove(this, move).isValid()) {
                 // a single valid move was found that removes the check so player is not checkmate
                 return;
             }

@@ -6,39 +6,39 @@ import java.util.Set;
 
 public class MoveValidator {
 
-    public static boolean isMoveValid(Game game, Move move) {
+    public static MoveValidationResult validateMove(Game game, Move move) {
         if (move.from() == move.to()) {
-            return false;
+            return new MoveValidationResult(false, "Is not a move");
         }
 
         if (!IsMoveInbounds(move)) {
-            return false;
+            return new MoveValidationResult(false, "Out of bounds");
         }
 
         Spot currentSpot = game.board().getSpot(move.from());
 
         if (!currentSpot.hasPiece()) {
-            return false;
+            return new MoveValidationResult(false, "");
         }
 
         if (currentSpot.getPiece().isWhite() != game.curPlayer().IsWhite()) {
-            return false;
+            return new MoveValidationResult(false, "Incorrect color");
         }
 
         IPiece piece = currentSpot.getPiece();
         if (!piece.isMoveLegal(game.board(), move)) {
-            return false;
+            return new MoveValidationResult(false, "Piece can't be moved like this");
         }
 
         if (willBeInCheck(game, move)) {
-            return false;
+            return new MoveValidationResult(false, "Move results in being checked!");
         }
 
         if (move.isCastlingMove() && castlingMovePassesThroughCheck(game, move)) {
-            return false;
+            return new MoveValidationResult(false, "King passes through a checked square");
         }
 
-        return true;
+        return new MoveValidationResult(true, "");
 
     }
 

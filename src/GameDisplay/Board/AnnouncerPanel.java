@@ -5,17 +5,30 @@ import Game.IGameObserver;
 import Game.GameState;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class AnnouncerPanel extends JPanel implements IGameObserver {
-    private JLabel label;
+    private JLabel gameStatus;
+    private JLabel infoMessage;
     private Game game;
 
     public AnnouncerPanel(Game game) {
+        setMaximumSize(getMaximumSize());
         this.game = game;
-        label = new JLabel(getMessage());
-        label.setFont(new Font("Sans-serif", Font.PLAIN, 42));
-        add(label);
+        gameStatus = new JLabel(getMessage());
+        gameStatus.setFont(new Font("Sans-serif", Font.PLAIN, 42));
+        gameStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
+        gameStatus.setBorder(new EmptyBorder(10,0,0,0));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        infoMessage = new JLabel(infoMessage());
+        infoMessage.setFont(new Font("Sans-serif", Font.PLAIN, 20));
+        infoMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        infoMessage.setBorder(new EmptyBorder(0,0,10,0));
+        infoMessage.setPreferredSize(new Dimension(200, 40));
+        infoMessage.setMinimumSize(new Dimension(200, 40));
+        add(gameStatus);
+        add(infoMessage);
     }
 
     private String getMessage() {
@@ -31,8 +44,13 @@ public class AnnouncerPanel extends JPanel implements IGameObserver {
         }
     }
 
+    private String infoMessage() {
+        return game.getInfoMessage();
+    }
+
     public void update(Game game) {
-        label.setText(getMessage());
+        gameStatus.setText(getMessage());
+        infoMessage.setText(infoMessage());
         this.repaint();
     }
 }

@@ -1,4 +1,4 @@
-package com.company;
+package Game;
 
 import Game.Game;
 import Game.Player;

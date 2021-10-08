@@ -52,7 +52,8 @@ public class PanelFactory {
         gameMenu.add(restart);
         gameMenu.add(undoMove);
 
-        menuBar.add(fileMenu);
+        // Todo add save / load functionality for now this is commented out
+        // menuBar.add(fileMenu);
         menuBar.add(gameMenu);
 
         return menuBar;
